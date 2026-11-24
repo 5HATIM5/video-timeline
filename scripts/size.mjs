@@ -4,8 +4,8 @@ import { build } from 'esbuild';
 import { gzipSync } from 'node:zlib';
 
 const entries = [
-  { name: 'video-timeline (web component + core)', entry: 'dist/index.js', external: ['mediabunny'] },
-  { name: 'video-timeline/react (wrapper only)', entry: 'dist/react/index.js', external: ['mediabunny', 'react', '../element/*', '../core/*', '../engines/*'] },
+  { name: 'video-timeline-scrubber (web component + core)', entry: 'dist/index.js', external: ['mediabunny'] },
+  { name: 'video-timeline-scrubber/react (wrapper only)', entry: 'dist/react/index.js', external: ['mediabunny', 'react', '../element/*', '../core/*', '../engines/*'] },
   { name: 'lazy chunk: mediabunny subset', entry: 'dist/engines/mediabunny.js', external: [] },
 ];
 

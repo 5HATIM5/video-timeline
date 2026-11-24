@@ -25,8 +25,8 @@ export default defineConfig({
   plugins: [selftestSink],
   resolve: {
     alias: [
-      { find: /^video-timeline\/react$/, replacement: here('./src/react/index.ts') },
-      { find: /^video-timeline$/, replacement: here('./src/index.ts') },
+      { find: /^video-timeline-scrubber\/react$/, replacement: here('./src/react/index.ts') },
+      { find: /^video-timeline-scrubber$/, replacement: here('./src/index.ts') },
     ],
   },
   oxc: { jsx: { runtime: 'automatic' } },

@@ -1,5 +1,5 @@
-import 'video-timeline';
-import { formatTime, type VideoTimelineElement } from 'video-timeline';
+import 'video-timeline-scrubber';
+import { formatTime, type VideoTimelineElement } from 'video-timeline-scrubber';
 import { SAMPLES, sampleFile } from './samples.js';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

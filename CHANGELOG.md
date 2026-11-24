@@ -8,7 +8,7 @@ First release.
   drag scrubbing, hover preview, zoom (wheel, pinch, keys) and scrolling, auto-follow during playback,
   keyboard control with frame stepping, touch support, light and dark themes, CSS variables and `::part`.
 - `load(file)` to play a local file and decode thumbnails straight from it.
-- React wrapper: `video-timeline/react`.
+- React wrapper: `video-timeline-scrubber/react`.
 - Headless `Thumbnailer` API plus `TimeScale`, `computeTicks`, `SeekCoordinator`, `ThumbnailCache`.
 - Keyframe-snapped thumbnails, with the decoder (WebCodecs or `<video>`) chosen per browser from benchmarks.
 - Tested end to end in Chromium 156, Safari 26.5 and iOS Safari 26.5 (simulator) with H.264 (B-frames,

@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { formatTime } from 'video-timeline';
-import { VideoTimeline, type VideoTimelineElement } from 'video-timeline/react';
+import { formatTime } from 'video-timeline-scrubber';
+import { VideoTimeline, type VideoTimelineElement } from 'video-timeline-scrubber/react';
 import { SAMPLES, sampleFile } from './samples.js';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   return (
     <main>
       <header>
-        <h1>video-timeline / react</h1>
+        <h1>video-timeline-scrubber / react</h1>
         <p>{'<VideoTimeline video={videoRef} source={file} />'}</p>
         <a href="./index.html">← Web component version</a>
       </header>

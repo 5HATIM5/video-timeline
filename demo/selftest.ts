@@ -1,7 +1,7 @@
 // Automated end-to-end check of the real component, for browsers we can't click in (Safari).
 // Open /?selftest=1 (optionally &only=label,label). Results are POSTed to the dev server and
 // appended to selftest-results.jsonl.
-import type { VideoTimelineElement } from 'video-timeline';
+import type { VideoTimelineElement } from 'video-timeline-scrubber';
 import { SAMPLES, sampleFile } from './samples.js';
 
 type Internals = {

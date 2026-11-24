@@ -21,10 +21,10 @@
     "sourceMap": true,
     "types": [],
     "paths": {
-      "video-timeline": [
+      "video-timeline-scrubber": [
         "./src/index.ts"
       ],
-      "video-timeline/react": [
+      "video-timeline-scrubber/react": [
         "./src/react/index.ts"
       ]
     }

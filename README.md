@@ -1,8 +1,8 @@
-# video-timeline
+# video-timeline-scrubber
 
-[![npm](https://img.shields.io/npm/v/video-timeline.svg)](https://www.npmjs.com/package/video-timeline)
+[![npm](https://img.shields.io/npm/v/video-timeline-scrubber.svg)](https://www.npmjs.com/package/video-timeline-scrubber)
 [![gzip size](https://img.shields.io/badge/gzip-12%20KB-blue.svg)](#bundle-size)
-[![license](https://img.shields.io/npm/l/video-timeline.svg)](LICENSE)
+[![license](https://img.shields.io/npm/l/video-timeline-scrubber.svg)](LICENSE)
 
 A free, drop-in **video timeline with a thumbnail filmstrip** for any `<video>`: time ruler,
 click-to-seek, smooth scrubbing, hover previews, zoom and keyboard control, like the timeline in a
@@ -28,7 +28,7 @@ Thumbnails are generated in the browser (WebCodecs), with no server and no ffmpe
 ## Install
 
 ```bash
-npm install video-timeline
+npm install video-timeline-scrubber
 ```
 
 ## Framework guides
@@ -53,7 +53,7 @@ Each guide shows the same app: pick a video file, play it, show the timeline, an
 <video-timeline for="player" id="timeline"></video-timeline>
 
 <script type="module">
-  import 'https://esm.sh/video-timeline@0.1';
+  import 'https://esm.sh/video-timeline-scrubber@0.1';
 
   const timeline = document.getElementById('timeline');
   document.getElementById('file').addEventListener('change', (e) => {
@@ -70,8 +70,8 @@ Each guide shows the same app: pick a video file, play it, show the timeline, an
 With any bundler (Vite, webpack, Rollup, Parcel, esbuild):
 
 ```ts
-import 'video-timeline'; // registers <video-timeline>
-import type { VideoTimelineElement } from 'video-timeline';
+import 'video-timeline-scrubber'; // registers <video-timeline>
+import type { VideoTimelineElement } from 'video-timeline-scrubber';
 
 const timeline = document.querySelector<VideoTimelineElement>('video-timeline')!;
 fileInput.addEventListener('change', () => timeline.load(fileInput.files![0]));
@@ -83,7 +83,7 @@ timeline.addEventListener('seek', (e) => {
 Or create it from code, without writing any HTML:
 
 ```ts
-import { createTimeline } from 'video-timeline';
+import { createTimeline } from 'video-timeline-scrubber';
 
 const timeline = createTimeline({
   video: document.querySelector('video')!,
@@ -96,7 +96,7 @@ const timeline = createTimeline({
 
 ```tsx
 import { useMemo, useRef, useState } from 'react';
-import { VideoTimeline, type VideoTimelineElement } from 'video-timeline/react';
+import { VideoTimeline, type VideoTimelineElement } from 'video-timeline-scrubber/react';
 
 export function Editor() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -141,7 +141,7 @@ Use it from a client component:
 'use client';
 
 import { useRef } from 'react';
-import { VideoTimeline } from 'video-timeline/react';
+import { VideoTimeline } from 'video-timeline-scrubber/react';
 
 export default function VideoEditor({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -178,8 +178,8 @@ export default defineConfig({
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import 'video-timeline';
-import type { VideoTimelineElement } from 'video-timeline';
+import 'video-timeline-scrubber';
+import type { VideoTimelineElement } from 'video-timeline-scrubber';
 
 const timeline = ref<VideoTimelineElement | null>(null);
 const lastSeek = ref(0);
@@ -215,12 +215,12 @@ export default defineNuxtConfig({
 
 ```ts
 // plugins/video-timeline.client.ts
-import 'video-timeline';
+import 'video-timeline-scrubber';
 export default defineNuxtPlugin(() => {});
 ```
 
 Then use `<video-timeline>` in any component exactly as in the [Vue 3](#vue-3) example (without
-the `import 'video-timeline'` line).
+the `import 'video-timeline-scrubber'` line).
 
 ### Angular
 
@@ -229,8 +229,8 @@ Allow custom elements in the component with `CUSTOM_ELEMENTS_SCHEMA`, and import
 ```ts
 // editor.component.ts
 import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
-import 'video-timeline';
-import type { VideoTimelineElement } from 'video-timeline';
+import 'video-timeline-scrubber';
+import type { VideoTimelineElement } from 'video-timeline-scrubber';
 
 @Component({
   selector: 'app-editor',
@@ -266,8 +266,8 @@ Svelte supports custom elements natively, so no configuration is needed (Svelte 
 
 ```svelte
 <script lang="ts">
-  import 'video-timeline';
-  import type { VideoTimelineElement } from 'video-timeline';
+  import 'video-timeline-scrubber';
+  import type { VideoTimelineElement } from 'video-timeline-scrubber';
 
   let timeline = $state<VideoTimelineElement>();
   let lastSeek = $state(0);
@@ -294,7 +294,7 @@ In Svelte 4, use `on:seek={...}` instead of `onseek`. The import is safe with Sv
 ### Anything else
 
 `<video-timeline>` is a standard web component, so it works anywhere custom elements do: Solid,
-Lit, Astro, Qwik, Alpine, htmx, or server-rendered HTML. Import `video-timeline` once on the
+Lit, Astro, Qwik, Alpine, htmx, or server-rendered HTML. Import `video-timeline-scrubber` once on the
 client, then use the tag.
 
 ## API
@@ -390,7 +390,7 @@ Parts: `root`, `viewport`, `ruler`, `strip`, `track`, `playhead`, `hover-line`, 
 To build your own UI, use the thumbnail engine directly:
 
 ```ts
-import { Thumbnailer } from 'video-timeline';
+import { Thumbnailer } from 'video-timeline-scrubber';
 
 const t = await Thumbnailer.open(file);               // picks the best engine for this browser
 const frames = await t.capture([0, 5, 10, 15], { width: 320, height: 180 });
@@ -456,8 +456,8 @@ player). AV1 needs hardware support (iPhone 15 Pro or later; the simulator has n
 
 | import | min | gzip |
 |---|--:|--:|
-| `video-timeline` | 36 KB | 12 KB |
-| `video-timeline/react` (on top) | 1.5 KB | 0.7 KB |
+| `video-timeline-scrubber` | 36 KB | 12 KB |
+| `video-timeline-scrubber/react` (on top) | 1.5 KB | 0.7 KB |
 | decoder chunk, lazy-loaded | 310 KB | 84 KB |
 
 ## Development
