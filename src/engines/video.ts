@@ -40,6 +40,17 @@ export class VideoElementEngine implements FrameEngine {
       release(v);
       throw e;
     }
+    // Prime the decoder with one throwaway seek: on iOS the first seek after load of some files
+    // (10-bit HEVC) reported 'seeked' but painted frame 0, which would end up as a thumbnail.
+    try {
+      const presented = waitForFrame(v, () => v.currentTime, 300);
+      const seeked = waitFor(v, 'seeked', 2000);
+      v.currentTime = Math.min(0.5, (v.duration || 1) / 2);
+      await seeked;
+      await presented;
+    } catch {
+      /* best effort */
+    }
     return new VideoElementEngine(v);
   }
 
@@ -63,17 +74,17 @@ export class VideoElementEngine implements FrameEngine {
     for (const request of requests) {
       if (signal.aborted) return;
       try {
-        // Registered before seeking so we can't miss the frame. Safari can fire 'seeked' before
-        // the new frame is drawable (seen under load: a stale previous frame got drawn).
-        const presented =
-          'requestVideoFrameCallback' in v ? new Promise<void>((r) => v.requestVideoFrameCallback(() => r())) : null;
-        const seeked = waitFor(v, 'seeked', 8000);
         const t = Math.max(0, request.time);
+        // Registered before seeking so the frame can't be missed. Safari/iOS can fire 'seeked'
+        // before the new frame is drawable, and a callback can also arrive for an older frame
+        // (e.g. frame 0 right after load), so only the frame at the target time counts.
+        const presented = waitForFrame(v, () => (request.mode === 'fast' ? v.currentTime : t), 150);
+        const seeked = waitFor(v, 'seeked', 8000);
         if (request.mode === 'fast' && typeof v.fastSeek === 'function') v.fastSeek(t);
         // A hair past the keyframe so timestamp rounding can't land on the previous frame.
         else v.currentTime = request.mode === 'keyframe' ? t + 0.001 : t;
         await seeked;
-        if (presented) await Promise.race([presented, new Promise((r) => setTimeout(r, 100))]);
+        await presented;
       } catch {
         continue; // one bad seek shouldn't stop the strip
       }
@@ -90,6 +101,30 @@ export function drawCover(ctx: CanvasRenderingContext2D, src: CanvasImageSource,
   const w = sw * s;
   const h = sh * s;
   ctx.drawImage(src, (tw - w) / 2, (th - h) / 2, w, h);
+}
+
+/**
+ * Resolve once the video presents the frame at `expected()` (within 0.1 s), or after `ms`.
+ * Without requestVideoFrameCallback support it resolves immediately.
+ */
+function waitForFrame(v: HTMLVideoElement, expected: () => number, ms: number): Promise<void> {
+  if (!('requestVideoFrameCallback' in v)) return Promise.resolve();
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      resolve();
+    };
+    const timer = setTimeout(finish, ms);
+    const check: VideoFrameRequestCallback = (_now, meta) => {
+      if (done) return;
+      if (Math.abs(meta.mediaTime - expected()) < 0.1) finish();
+      else v.requestVideoFrameCallback(check);
+    };
+    v.requestVideoFrameCallback(check);
+  });
 }
 
 function waitFor(target: HTMLMediaElement, event: string, ms: number): Promise<void> {
