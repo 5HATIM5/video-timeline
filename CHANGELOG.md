@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 (2026-11-24)
+
+Docs only, no code changes.
+
+- README: demo GIF, collapsible framework guides, shorter overview.
+- Design notes, test results and bundle sizes moved to `docs/how-it-works.md`.
+
 ## 0.1.0 (2026-11-24)
 
 First release.

@@ -1,6 +1,6 @@
 {
   "name": "video-timeline-scrubber",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Video timeline component with thumbnail filmstrip, ruler, click-to-seek and smooth scrubbing for any <video>. Free, MIT, framework-agnostic web component for React, Vue, Angular, Svelte and plain JS. Generates thumbnails in the browser with WebCodecs.",
   "keywords": [
     "video-timeline-scrubber",
