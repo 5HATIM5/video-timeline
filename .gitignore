@@ -9,3 +9,5 @@ bench/node_modules
 bench/fixtures
 bench/results
 bench/sizecheck/*.out.js
+docs/demo-sample.mp4
+demo/public/demo-sample.mp4

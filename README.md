@@ -1,29 +1,31 @@
 # video-timeline-scrubber
 
 [![npm](https://img.shields.io/npm/v/video-timeline-scrubber.svg)](https://www.npmjs.com/package/video-timeline-scrubber)
-[![gzip size](https://img.shields.io/badge/gzip-12%20KB-blue.svg)](#bundle-size)
+[![gzip size](https://img.shields.io/badge/gzip-12%20KB-blue.svg)](docs/how-it-works.md#bundle-size)
 [![license](https://img.shields.io/npm/l/video-timeline-scrubber.svg)](LICENSE)
 
-A free, drop-in **video timeline with a thumbnail filmstrip** for any `<video>`: time ruler,
-click-to-seek, smooth scrubbing, hover previews, zoom and keyboard control, like the timeline in a
-video editor. Works with **React, Next.js, Vue, Nuxt, Angular, Svelte and plain JavaScript**.
-Thumbnails are generated in the browser (WebCodecs), with no server and no ffmpeg.
+A free, drop-in **video timeline with a thumbnail filmstrip** for any `<video>`, like the timeline in
+a video editor. Works with **React, Next.js, Vue, Nuxt, Angular, Svelte and plain JavaScript**.
+Thumbnails are generated in the browser, with no server and no ffmpeg.
+
+![Demo: drop a video, the filmstrip timeline appears; hover for previews, drag to scrub, zoom in](https://raw.githubusercontent.com/5HATIM5/video-timeline/main/docs/demo.gif)
 
 ```html
 <video id="player" controls src="movie.mp4"></video>
 <video-timeline for="player"></video-timeline>
 ```
 
-- **Fast filmstrips.** Thumbnails snap to keyframes, so each costs one decoded frame: about 4–12 ms
-  in Chromium and 14–30 ms in Safari. A 10-minute 1080p upload shows its strip in about 100–250 ms.
-- **Upload and go.** `timeline.load(file)` plays a local file and builds the filmstrip from it.
-- **Handles real-world files.** Tested with H.264 (B-frames, edit lists), iPhone HEVC and 10-bit
-  HDR, rotated portrait video, variable frame rate, VP9, AV1, MKV and long-GOP screen recordings.
-- **Smooth scrubbing.** At most one seek is in flight, always to the latest position.
-- **Small.** 12 KB gzipped. The decoder (84 KB) is lazy-loaded only when thumbnails are needed.
-- **Accessible.** It's a `role="slider"` that announces the time ("1:23 of 10:00"), with
-  frame-accurate arrow keys.
-- **Themeable.** Light and dark themes, CSS variables and `::part()`.
+- **Fast.** A filmstrip appears about 0.1–0.3 s after a video loads.
+- **Upload and go.** `timeline.load(file)` plays a local file and builds its filmstrip.
+- **Scrub, hover, zoom.** Drag to scrub, hover for previews, zoom down to single frames, and step
+  frame by frame with the arrow keys.
+- **Real-world files.** iPhone HEVC and HDR, portrait video, variable frame rate, WebM, AV1, MKV.
+- **Small.** 12 KB gzipped; the decoder loads only when it's needed.
+- **Accessible and themeable.** A keyboard-friendly slider for screen readers, light and dark
+  themes, and CSS variables.
+
+Works in Chrome, Edge, Safari (macOS and iOS) and other Chromium browsers.
+[How it works and test results →](docs/how-it-works.md)
 
 ## Install
 
@@ -33,19 +35,11 @@ npm install video-timeline-scrubber
 
 ## Framework guides
 
-- [Plain HTML (CDN, no build step)](#plain-html-cdn-no-build-step)
-- [Vanilla JavaScript / TypeScript](#vanilla-javascript--typescript)
-- [React](#react)
-- [Next.js](#nextjs)
-- [Vue 3](#vue-3)
-- [Nuxt](#nuxt)
-- [Angular](#angular)
-- [Svelte / SvelteKit](#svelte--sveltekit)
-- [Anything else](#anything-else)
-
 Each guide shows the same app: pick a video file, play it, show the timeline, and react to seeks.
+Click your framework:
 
-### Plain HTML (CDN, no build step)
+<details>
+<summary><b>Plain HTML (CDN, no build step)</b></summary>
 
 ```html
 <input type="file" id="file" accept="video/*" />
@@ -65,7 +59,10 @@ Each guide shows the same app: pick a video file, play it, show the timeline, an
 
 `<video-timeline>` also works with a video that already has a `src`. Just point `for` at it.
 
-### Vanilla JavaScript / TypeScript
+</details>
+
+<details>
+<summary><b>Vanilla JavaScript / TypeScript</b></summary>
 
 With any bundler (Vite, webpack, Rollup, Parcel, esbuild):
 
@@ -92,7 +89,10 @@ const timeline = createTimeline({
 });
 ```
 
-### React
+</details>
+
+<details>
+<summary><b>React</b></summary>
 
 ```tsx
 import { useMemo, useRef, useState } from 'react';
@@ -131,7 +131,10 @@ export function Editor() {
   `onScrubEnd`, `onZoomChange`, `onThumbnailError`, `onMediaError`.
 - Works with React 18 and 19, StrictMode included.
 
-### Next.js
+</details>
+
+<details>
+<summary><b>Next.js</b></summary>
 
 The React wrapper is already marked `'use client'` and is safe to import during server rendering.
 Use it from a client component:
@@ -157,7 +160,10 @@ export default function VideoEditor({ src }: { src: string }) {
 Then render `<VideoEditor src="/movie.mp4" />` from any server component or page. You don't need
 `next/dynamic` or `ssr: false`.
 
-### Vue 3
+</details>
+
+<details>
+<summary><b>Vue 3</b></summary>
 
 First, tell Vue that `<video-timeline>` is a custom element:
 
@@ -204,7 +210,10 @@ function onSeek(e: Event) {
 Using several timelines on one page? Instead of `for` + `id`, pass the element:
 `<video ref="videoEl" />` and `<video-timeline :video.prop="videoEl" />`.
 
-### Nuxt
+</details>
+
+<details>
+<summary><b>Nuxt</b></summary>
 
 ```ts
 // nuxt.config.ts
@@ -219,10 +228,13 @@ import 'video-timeline-scrubber';
 export default defineNuxtPlugin(() => {});
 ```
 
-Then use `<video-timeline>` in any component exactly as in the [Vue 3](#vue-3) example (without
+Then use `<video-timeline>` in any component exactly as in the Vue 3 example above (without
 the `import 'video-timeline-scrubber'` line).
 
-### Angular
+</details>
+
+<details>
+<summary><b>Angular</b></summary>
 
 Allow custom elements in the component with `CUSTOM_ELEMENTS_SCHEMA`, and import the package once:
 
@@ -260,7 +272,10 @@ export class EditorComponent {
 With NgModules, add `CUSTOM_ELEMENTS_SCHEMA` to the module's `schemas` instead. The import is
 safe with Angular SSR.
 
-### Svelte / SvelteKit
+</details>
+
+<details>
+<summary><b>Svelte / SvelteKit</b></summary>
 
 Svelte supports custom elements natively, so no configuration is needed (Svelte 5 syntax shown):
 
@@ -291,11 +306,16 @@ Svelte supports custom elements natively, so no configuration is needed (Svelte 
 
 In Svelte 4, use `on:seek={...}` instead of `onseek`. The import is safe with SvelteKit SSR.
 
-### Anything else
+</details>
+
+<details>
+<summary><b>Anything else</b></summary>
 
 `<video-timeline>` is a standard web component, so it works anywhere custom elements do: Solid,
 Lit, Astro, Qwik, Alpine, htmx, or server-rendered HTML. Import `video-timeline-scrubber` once on the
 client, then use the tag.
+
+</details>
 
 ## API
 
@@ -314,7 +334,7 @@ client, then use the tag.
 |---|---|---|
 | `for` | | id of the `<video>` to control |
 | `height` | `56` | filmstrip height in px |
-| `engine` | `auto` | `auto`, `webcodecs` or `video` (see [How it works](#how-it-works)) |
+| `engine` | `auto` | `auto`, `webcodecs` or `video` (see [how it works](docs/how-it-works.md)) |
 | `theme` | `auto` | `auto` (follows the OS), `dark`, `light` |
 | `thumbnails` | `true` | `false` shows the ruler and playhead only |
 | `ruler` | `true` | `false` hides the time ruler |
@@ -401,64 +421,12 @@ t.dispose();
 `TimeScale`, `computeTicks`, `SeekCoordinator`, `ThumbnailCache`, `visibleSlots` and `formatTime`
 are exported too.
 
-## Remote videos (URLs)
-
-Videos on another domain need CORS headers (`Access-Control-Allow-Origin`) and HTTP range
-requests to get the fast thumbnail path. Without them, thumbnails fall back to slower `<video>`
-seeking where the browser allows it, and to no thumbnails otherwise. Streaming formats (HLS/DASH)
-aren't supported yet.
-
-## How it works
-
-These choices come from benchmarks on Chromium 156 and Safari 26.5 (Apple M4), on synthetic and
-real-world-style files. The code and results are in [`bench/`](bench/RESULTS.md).
-
-1. **Keyframe snapping.** Decoding the exact frame at time *t* means decoding everything from
-   the previous keyframe, which takes 60–200 ms on long-GOP or 4K files. A filmstrip thumbnail
-   doesn't need to be exact, so each slot shows the keyframe inside it: one decoded frame, 5–24×
-   faster. When you zoom in so far that a slot has no keyframe, that slot decodes its exact frame.
-2. **The decoder is chosen per browser.** In Chromium, WebCodecs (through
-   [Mediabunny](https://mediabunny.dev)) is fastest. In Safari, WebCodecs was 2.6–4× slower than
-   seeking a hidden `<video>` onto keyframe timestamps, so the `<video>` engine is used there, and
-   WebCodecs only for exact frames. Safari paints the wrong frame after exact `<video>` seeks
-   on AV1. If one engine can't open a file, the other takes over.
-3. **Scrubbing.** At most one seek runs at a time, intermediate positions are dropped, and
-   release always ends on an exact seek. The playhead and tooltip follow the pointer immediately
-   while the video catches up.
-4. **The `<video>` element is the source of truth** for duration and time.
-
 ## Browser support
 
-| | status |
-|---|---|
-| Chromium (Chrome, Edge, Brave, Arc, Opera) | tested: Chromium 156 |
-| Safari (macOS) | tested: Safari 26.5 |
-| iOS Safari | tested: iOS 26.5 simulator (iPhone 17 Pro), ready in 0.1–0.8 s; not yet on a physical device |
-| Firefox | should work (WebCodecs + `fastSeek`); not yet tested |
-| Android Chrome | should work (same engine as desktop Chromium); not yet tested |
-
-End-to-end self-test results (10 files, every thumbnail checked against a frame-index barcode
-baked into the test video):
-
-| | Chromium 156 | Safari 26.5 | iOS Safari 26.5 (simulator) |
-|---|---|---|---|
-| engine picked by `auto` | `webcodecs` | `video` | `video` |
-| load → first thumbnails | 50–370 ms (20 s GOP: 1–2 s) | 145–300 ms (20 s GOP: about 1.7 s) | 230–1070 ms |
-| thumbnails showing the right frame | all | all | all |
-| click / drag seek error | 0 | 0 | 0 |
-| → key | exactly one frame | exactly one frame | exactly one frame |
-| MKV | works | `mediaerror` (Safari can't play MKV) | `mediaerror` |
-
-On iOS, WebM falls back to the WebCodecs engine after about 3 s (iOS won't buffer WebM in a hidden
-player). AV1 needs hardware support (iPhone 15 Pro or later; the simulator has none).
-
-## Bundle size
-
-| import | min | gzip |
-|---|--:|--:|
-| `video-timeline-scrubber` | 36 KB | 12 KB |
-| `video-timeline-scrubber/react` (on top) | 1.5 KB | 0.7 KB |
-| decoder chunk, lazy-loaded | 310 KB | 84 KB |
+Chrome, Edge and other Chromium browsers, Safari 26 (macOS) and iOS Safari 26 are tested end to end.
+Firefox and Android Chrome should work but aren't verified yet. Safari can't play MKV, so the
+timeline fires a `mediaerror` there. Remote videos on another domain need CORS headers.
+Details: [docs/how-it-works.md](docs/how-it-works.md).
 
 ## Development
 
@@ -471,10 +439,9 @@ npm run build
 npm run size
 ```
 
-The demo's test buttons use the benchmark videos. Generate them once: run
-`node bench/server.mjs`, open `http://127.0.0.1:5174/generate.html` in Chrome, then run
-`bench/make-real-fixtures.sh` (needs ffmpeg). Then `/?selftest=1` on the demo runs the end-to-end
-check in any browser and writes the results to `selftest-results.jsonl`.
+The demo's test buttons and `/?selftest=1` end-to-end check use the benchmark videos; see
+[`bench/README.md`](bench/README.md) to generate them. `/?record` is the scripted mode used to
+record the demo GIF.
 
 ## Roadmap
 

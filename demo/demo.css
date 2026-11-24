@@ -68,3 +68,18 @@ video-timeline { margin-top: 44px; }
   margin-top: 16px; height: 140px; overflow: auto; padding: 10px 12px; border-radius: 10px;
   background: var(--chip); font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted);
 }
+
+/* Recording mode (/?record), used to capture the README GIF */
+body.recording {
+  --bg: #0b0c0f; --panel: #15161a; --border: #23252c; --text: #e6e8ee; --muted: #8b90a0; --chip: #1f2127;
+  color-scheme: dark; background: var(--bg); color: var(--text);
+}
+body.recording header, body.recording .samples, body.recording .log, body.recording .meta,
+body.recording .toolbar label, body.recording .toolbar .spacer { display: none; }
+body.recording main { padding-top: 20px; }
+body.recording video-timeline { margin-top: 40px; }
+.rec-cursor, .rec-chip { position: fixed; left: 0; top: 0; z-index: 1000; pointer-events: none; }
+.rec-chip {
+  opacity: 0; padding: 6px 10px; border-radius: 8px; background: #fff; color: #111;
+  font: 600 12px/1 ui-sans-serif, system-ui, sans-serif; box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+}

@@ -85,6 +85,10 @@ timeline.addEventListener('zoomchange', (e) => {
 timeline.addEventListener('thumbnailerror', (e) => log(`thumbnail error: ${(e as CustomEvent).detail.error.message}`));
 video.addEventListener('error', () => log(`video error: ${video.error?.message || video.error?.code} (the browser can't play this file)`));
 
+if (new URLSearchParams(location.search).has('record')) {
+  void import('./record.js').then((m) => m.setupRecording(timeline, open));
+}
+
 if (new URLSearchParams(location.search).has('selftest')) {
   stage.classList.add('has-video');
   void import('./selftest.js').then((m) => m.runSelftest(timeline, video));
