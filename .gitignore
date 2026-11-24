@@ -1,0 +1,11 @@
+node_modules
+dist
+demo-dist
+selftest-results.jsonl
+.DS_Store
+
+# Benchmark artifacts (regenerate with bench/generate.html and bench/make-real-fixtures.sh)
+bench/node_modules
+bench/fixtures
+bench/results
+bench/sizecheck/*.out.js

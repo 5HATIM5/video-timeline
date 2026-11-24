@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Real-file check</title>
+  <script type="importmap">{ "imports": { "mediabunny": "/node_modules/mediabunny/dist/bundles/mediabunny.min.mjs" } }</script>
+  <style>
+    body { font: 13px/1.45 system-ui, sans-serif; margin: 20px; background: #111; color: #e8e8e8; }
+    h1 { font-size: 18px; margin: 0 0 8px; }
+    h2 { font-size: 14px; margin: 22px 0 4px; color: #9cf; }
+    .info { color: #aaa; margin-bottom: 6px; }
+    table { border-collapse: collapse; margin: 6px 0 10px; }
+    th, td { padding: 3px 10px; border-bottom: 1px solid #2a2a2a; text-align: right; font-variant-numeric: tabular-nums; }
+    th:first-child, td:first-child { text-align: left; }
+    .strip { display: flex; gap: 2px; margin: 2px 0 8px; flex-wrap: wrap; align-items: flex-end; }
+    .strip canvas { display: block; height: 54px; border-radius: 3px; }
+    .lbl { color: #aaa; font-size: 11px; }
+    .bad { color: #ff7a7a; } .ok { color: #7dffa1; } .warn { color: #ffd27a; }
+    #status { color: #fc6; }
+  </style>
+</head>
+<body>
+  <h1>Real-world file check</h1>
+  <div id="status">starting…</div>
+  <div id="out"></div>
+  <script type="module" src="./real.mjs"></script>
+</body>
+</html>

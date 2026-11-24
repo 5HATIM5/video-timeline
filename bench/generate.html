@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixture generator</title>
+  <script type="importmap">{ "imports": { "mediabunny": "/node_modules/mediabunny/dist/bundles/mediabunny.min.mjs" } }</script>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; margin: 24px; background: #111; color: #eee; }
+    pre { background: #1c1c1c; padding: 12px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Fixture generator</h1>
+  <pre id="log"></pre>
+  <script type="module">
+    import { Output, Mp4OutputFormat, BufferTarget, CanvasSource } from 'mediabunny';
+    import { drawFrame } from './pattern.mjs';
+
+    const FIXTURES = [
+      { name: 'fhd-10min-kf2.mp4',  W: 1920, H: 1080, fps: 30, dur: 600, kf: 2,  bitrate: 3e6 },
+      { name: 'fhd-10min-kf10.mp4', W: 1920, H: 1080, fps: 30, dur: 600, kf: 10, bitrate: 3e6 },
+      { name: 'uhd-3min-kf2.mp4',   W: 3840, H: 2160, fps: 30, dur: 180, kf: 2,  bitrate: 10e6 },
+    ];
+
+    const logEl = document.getElementById('log');
+    const log = (s) => { logEl.textContent += s + '\n'; console.log(s); };
+    const params = new URLSearchParams(location.search);
+    const only = params.get('only')?.split(',');
+    window.__gen = { state: 'running', done: [] };
+
+    for (const fx of FIXTURES.filter((f) => !only || only.includes(f.name))) {
+      const t0 = performance.now();
+      try {
+        const canvas = new OffscreenCanvas(fx.W, fx.H);
+        const ctx = canvas.getContext('2d');
+        const output = new Output({ format: new Mp4OutputFormat({ fastStart: 'in-memory' }), target: new BufferTarget() });
+        const source = new CanvasSource(canvas, { codec: 'avc', bitrate: fx.bitrate, keyFrameInterval: fx.kf });
+        output.addVideoTrack(source, { frameRate: fx.fps });
+        await output.start();
+
+        const frames = fx.dur * fx.fps;
+        for (let i = 0; i < frames; i++) {
+          drawFrame(ctx, fx.W, fx.H, i, fx.fps);
+          await source.add(i / fx.fps, 1 / fx.fps);
+          if (i % (fx.fps * 30) === 0) {
+            document.title = `${fx.name} ${Math.round((i / frames) * 100)}%`;
+          }
+        }
+        await output.finalize();
+        const buf = output.target.buffer;
+        const encMs = performance.now() - t0;
+        await fetch('/save/' + fx.name, { method: 'POST', body: buf });
+        const line = { type: 'generate', name: fx.name, bytes: buf.byteLength, encodeMs: Math.round(encMs), fpsEncoded: Math.round(frames / (encMs / 1000)) };
+        log(JSON.stringify(line));
+        await fetch('/results', { method: 'POST', body: JSON.stringify(line) });
+        window.__gen.done.push(line);
+      } catch (e) {
+        const line = { type: 'generate', name: fx.name, error: String(e?.stack ?? e) };
+        log(JSON.stringify(line));
+        await fetch('/results', { method: 'POST', body: JSON.stringify(line) });
+      }
+    }
+    window.__gen.state = 'done';
+    document.title = 'GENERATE DONE';
+    await fetch('/results', { method: 'POST', body: JSON.stringify({ type: 'generate-done' }) });
+  </script>
+</body>
+</html>

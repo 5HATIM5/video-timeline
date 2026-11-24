@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Extraction benchmark</title>
+  <script type="importmap">{ "imports": { "mediabunny": "/node_modules/mediabunny/dist/bundles/mediabunny.min.mjs" } }</script>
+  <style>
+    body { font: 13px/1.45 system-ui, sans-serif; margin: 20px; background: #111; color: #e8e8e8; }
+    h1 { font-size: 18px; margin: 0 0 8px; }
+    h2 { font-size: 14px; margin: 20px 0 6px; color: #9cf; }
+    table { border-collapse: collapse; margin: 6px 0 12px; }
+    th, td { padding: 3px 10px; border-bottom: 1px solid #2a2a2a; text-align: right; font-variant-numeric: tabular-nums; }
+    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+    .strip { display: flex; gap: 2px; margin: 2px 0 10px; flex-wrap: wrap; }
+    .strip figure { margin: 0; text-align: center; font-size: 10px; color: #aaa; }
+    .strip canvas { display: block; width: 107px; height: 60px; border-radius: 3px; }
+    .bad { color: #ff7a7a; }
+    .ok { color: #7dffa1; }
+    #status { color: #fc6; }
+  </style>
+</head>
+<body>
+  <h1>Thumbnail extraction benchmark</h1>
+  <div id="status">starting…</div>
+  <div id="out"></div>
+  <script type="module" src="./bench.mjs"></script>
+</body>
+</html>

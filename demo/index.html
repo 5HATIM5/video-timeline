@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>video-timeline demo</title>
+  <link rel="stylesheet" href="./demo.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <h1>video-timeline</h1>
+      <p>Drop in a video, get a scrubbable filmstrip timeline.</p>
+      <a href="./react.html">React version →</a>
+    </header>
+
+    <section class="card" id="stage">
+      <div class="player">
+        <video id="player" controls playsinline></video>
+        <div class="drop" id="drop">
+          <strong>Drop a video here</strong>
+          <label>Choose a file<input type="file" id="file" accept="video/*,.mkv,.mov" /></label>
+        </div>
+      </div>
+
+      <!-- This is the whole integration: -->
+      <video-timeline for="player" id="timeline"></video-timeline>
+
+      <div class="toolbar">
+        <button id="zoom-out" title="Zoom out (-)">−</button>
+        <button id="zoom-fit" title="Fit (0)">Fit</button>
+        <button id="zoom-in" title="Zoom in (+)">+</button>
+        <output id="zoom">1.0×</output>
+        <span class="spacer"></span>
+        <label>Engine
+          <select id="engine"><option>auto</option><option>webcodecs</option><option>video</option></select>
+        </label>
+        <label>Theme
+          <select id="theme"><option>auto</option><option>dark</option><option>light</option></select>
+        </label>
+        <label>Height
+          <select id="height"><option>40</option><option selected>56</option><option>72</option><option>96</option></select>
+        </label>
+      </div>
+      <div class="meta" id="meta">No video loaded.</div>
+    </section>
+
+    <div class="samples" id="samples">Test files:</div>
+    <div class="log" id="log"></div>
+  </main>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

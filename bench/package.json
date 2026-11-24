@@ -1,0 +1,13 @@
+{
+  "name": "video-timeline-bench",
+  "version": "1.0.0",
+  "description": "Benchmarks and test-video generators behind video-timeline engine choices",
+  "type": "module",
+  "dependencies": {
+    "mediabunny": "^1.66.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
+  },
+  "private": true
+}

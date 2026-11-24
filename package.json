@@ -1,0 +1,103 @@
+{
+  "name": "video-timeline",
+  "version": "0.1.0",
+  "description": "Video timeline component with thumbnail filmstrip, ruler, click-to-seek and smooth scrubbing for any <video>. Free, MIT, framework-agnostic web component for React, Vue, Angular, Svelte and plain JS. Generates thumbnails in the browser with WebCodecs.",
+  "keywords": [
+    "video",
+    "video-timeline",
+    "timeline",
+    "video-scrubber",
+    "scrubber",
+    "scrubbing",
+    "filmstrip",
+    "thumbnails",
+    "video-thumbnails",
+    "seek-bar",
+    "seekbar",
+    "progress-bar",
+    "video-player",
+    "video-editor",
+    "video-editing",
+    "trimmer",
+    "frame",
+    "keyframe",
+    "webcodecs",
+    "web-component",
+    "custom-element",
+    "react",
+    "vue",
+    "angular",
+    "svelte",
+    "nextjs"
+  ],
+  "homepage": "https://github.com/5HATIM5/video-timeline#readme",
+  "bugs": "https://github.com/5HATIM5/video-timeline/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5HATIM5/video-timeline.git"
+  },
+  "author": "Hatim Shabbir (https://github.com/5HATIM5)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "react": ["./dist/react/index.d.ts"]
+    }
+  },
+  "sideEffects": [
+    "./dist/index.js",
+    "./dist/element/define.js",
+    "./dist/react/index.js"
+  ],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "size": "node scripts/size.mjs",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "mediabunny": "^1.66.4"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^21.0.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
